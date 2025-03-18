@@ -1,24 +1,60 @@
 #include "raylib.h"
+#include <vector>
+#include <cstring>
+#include <iostream>
 
 int main(void)
 {
-  const int screenWidth = 800;
+  const int screenWidth = 450;
   const int screenHeight = 450;
+  const int gameWidth = 300;
+  const int gameHeight = 300;
+  const int tileWidth = 100;
+  const int tileHeight = 100;
 
-  InitWindow(screenWidth, screenHeight, "Raylib Example");
+  const int tilesPerRow = gameWidth / tileWidth;
 
-  SetTargetFPS(60);
 
-  while(!WindowShouldClose())
+  const int gamePositionX = (screenWidth - gameWidth) / 2;
+  const int gamePositionY = (screenHeight - gameHeight) / 2;
+
+  InitWindow(screenWidth, screenHeight, "Lesson One");
+
+  std::vector<Texture2D> tiles;
+  for (int tilenumber = 1; tilenumber <= 8; tilenumber++) {
+    char tilepath[32];
+    std::sprintf(tilepath, "resources/Tile_%d.png", tilenumber);
+    tiles.push_back(LoadTexture(tilepath));
+  }
+
+  while (!WindowShouldClose())
+  {
+    BeginDrawing();
     {
-      BeginDrawing();
+      ClearBackground(SKYBLUE);
+      DrawRectangle(gamePositionX, gamePositionY, gameWidth, gameHeight, LIGHTGRAY);
+      DrawRectangleLines(gamePositionX,
+                         gamePositionY,
+                         gameWidth,
+                         gameHeight,
+                         BLACK);
+      for (int tilecounter = 0; static_cast<size_t>(tilecounter) < tiles.size(); tilecounter++)
       {
-	ClearBackground(RAYWHITE);
-	DrawText("Hello, World!", 190, 200, 20, LIGHTGRAY);
+        int rowNumber = tilecounter / tilesPerRow;
+        int colNumber = tilecounter % tilesPerRow;
+        int x = gamePositionX + (colNumber * tileWidth);
+        int y = gamePositionY + (rowNumber * tileHeight);
+        DrawTexture(tiles.at(tilecounter), x, y, WHITE);
       }
-      EndDrawing();
 
     }
+    EndDrawing();
+  }
+
+  for (Texture2D tile: tiles) 
+  {
+    UnloadTexture(tile);
+  }
 
   CloseWindow();
 
