@@ -13,20 +13,19 @@ int main(void)
   const int tileHeight = 100;
 
   const int tilesPerRow = gameWidth / tileWidth;
-
-
   const int gamePositionX = (screenWidth - gameWidth) / 2;
   const int gamePositionY = (screenHeight - gameHeight) / 2;
 
   InitWindow(screenWidth, screenHeight, "Lesson One");
 
   std::vector<Texture2D> tiles;
-  for (int tilenumber = 1; tilenumber <= 8; tilenumber++) {
+  for (int tilenumber = 0; tilenumber < 9; tilenumber++) {
     char tilepath[32];
     std::sprintf(tilepath, "resources/Tile_%d.png", tilenumber);
     tiles.push_back(LoadTexture(tilepath));
   }
 
+  SetTargetFPS(15);
   while (!WindowShouldClose())
   {
     BeginDrawing();
