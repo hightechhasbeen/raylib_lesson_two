@@ -3,18 +3,44 @@
 #include <cstring>
 #include <iostream>
 
+const int screenWidth = 450;
+const int screenHeight = 450;
+const int gameWidth = 300;
+const int gameHeight = 300;
+const int tileWidth = 100;
+const int tileHeight = 100;
+
+const int tilesPerRow = gameWidth / tileWidth;
+const int gamePositionX = (screenWidth - gameWidth) / 2;
+const int gamePositionY = (screenHeight - gameHeight) / 2;
+
+int LocateMouse(void) {
+  int tileNumber = 1;  // Change the one to a zero
+  int mouseX = GetMouseX() - gamePositionX;
+  int mouseY = GetMouseY() - gamePositionY;
+
+  /***** PUT YOUR WORK HERE *****/
+  // Convert the mouse position (given in pixels) into the number of a specific tile.
+  // Tiles are numbered like this:
+  //          |     |     |     |
+  //          |  0  |  1  |  2  |
+  //          |     |     |     |
+  //           =================
+  //          |     |     |     |
+  //          |  3  |  4  |  5  |
+  //          |     |     |     |
+  //           =================
+  //          |     |     |     |
+  //          |  6  |  7  |  8  |
+  //          |     |     |     |
+  // and they are 100 x 100 pixels.
+  
+  return tileNumber;
+}
+
 int main(void)
 {
-  const int screenWidth = 450;
-  const int screenHeight = 450;
-  const int gameWidth = 300;
-  const int gameHeight = 300;
-  const int tileWidth = 100;
-  const int tileHeight = 100;
 
-  const int tilesPerRow = gameWidth / tileWidth;
-  const int gamePositionX = (screenWidth - gameWidth) / 2;
-  const int gamePositionY = (screenHeight - gameHeight) / 2;
 
   InitWindow(screenWidth, screenHeight, "Lesson One");
 
@@ -28,6 +54,13 @@ int main(void)
   SetTargetFPS(15);
   while (!WindowShouldClose())
   {
+    int selectedTile = 0;
+
+    if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
+    {
+      selectedTile = LocateMouse();
+    }
+
     BeginDrawing();
     {
       ClearBackground(SKYBLUE);
@@ -43,7 +76,12 @@ int main(void)
         int colNumber = tilecounter % tilesPerRow;
         int x = gamePositionX + (colNumber * tileWidth);
         int y = gamePositionY + (rowNumber * tileHeight);
-        DrawTexture(tiles.at(tilecounter), x, y, WHITE);
+        if (tilecounter == selectedTile) 
+        {
+          DrawTexture(tiles.at(tilecounter), x, y, PINK);
+        } else {
+          DrawTexture(tiles.at(tilecounter), x, y, WHITE);
+        }
       }
 
     }
@@ -59,3 +97,22 @@ int main(void)
 
   return 0;
 }
+
+
+
+/**********************************************************************
+ One possible solution:
+ 
+ int LocateMouse(void) {
+  int tileNumber = 0;
+  int mouseX = GetMouseX() - gamePositionX;
+  int mouseY = GetMouseY() - gamePositionY;
+
+  if (mouseX > 0 && mouseX < gameWidth && mouseY > 0 && mouseY < gameHeight)
+  {
+    tileNumber = tilesPerRow * (mouseY / tileHeight) + (mouseX / tileWidth);
+  }
+
+  return tileNumber;
+}
+ **********************************************************************/
