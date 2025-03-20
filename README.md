@@ -1,1 +1,1 @@
-Template for raylib applications in C++
+Add mouse handling
