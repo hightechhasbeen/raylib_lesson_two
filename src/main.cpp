@@ -38,7 +38,7 @@ int LocateMouse(void) {
   //          |  6  |  7  |  8  |
   //          |     |     |     |
   // and they are 100 x 100 pixels.
-  
+ 
   return tileNumber;
 }
 
@@ -99,7 +99,7 @@ int main(void)
         int y = gamePositionY + (rowNumber * tileHeight);
         if (tilecounter == selectedTile) 
         {
-          DrawTexture(chosenTiles.at(tilecounter), x, y, PINK);
+          DrawTexture(chosenTiles.at(tilecounter), x, y, LIGHTGRAY);
         } else {
           DrawTexture(chosenTiles.at(tilecounter), x, y, WHITE);
         }
